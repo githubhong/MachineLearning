@@ -37,7 +37,7 @@ SecondDataSet <- read.csv("pml-testing.csv", header=TRUE, sep=",",
 ```
 These two datasets are similar except the last column name is different. The training data set is used for model buiding. The testing data set does not have classe varialbe, and is only used for project submittion.
 
-## Step 2: Get to know outcome column 'classe' is distributed?
+## Step 2: Get to know how outcome column 'classe' is distributed?
 ```{r}
 hist(as.numeric(as.factor(FirstDataSet$classe)), xlab = "Classe 1-A, 2-B, 3-C, 4-D, 5-E", main="Histogram for Training Outcome") 
 ```
