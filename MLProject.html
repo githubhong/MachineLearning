@@ -69,8 +69,7 @@ img {
 
 <div id="purpose-of-this-project" class="section level1">
 <h1>Purpose of this project</h1>
-<p>To predicate the outcome of Classe Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it.</p>
-<p>In this project, the goal is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. The purpose of this project is to predict the manner, using outcome variable called “classe”, in which they did the exercise. This is the “classe” variable in the training set.</p>
+<p>To predicate the outcome of classe Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, the goal is to use data from accelerometers on the belt, forearm, arm, and dumbbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. The purpose of this project is to predict the manner, using outcome variable called “classe”, in which they did the exercise. This is the “classe” variable in the training set.</p>
 <div id="step-1-get-input-data" class="section level2">
 <h2>Step 1: Get input data</h2>
 <p>Download the project first data sets from <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv</a> and the second data set from <a href="https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv" class="uri">https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv</a> in case the internet connection is not always available during research. ** The data for this project come from this source: <a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a>.</p>
@@ -94,11 +93,13 @@ SecondDataSet &lt;- read.csv(&quot;pml-testing.csv&quot;, header=TRUE, sep=&quot
 </div>
 <div id="step-2-get-to-know-how-outcome-column-classe-is-distributed" class="section level2">
 <h2>Step 2: Get to know how outcome column ‘classe’ is distributed?</h2>
-<pre class="r"><code>hist(as.numeric(as.factor(FirstDataSet$classe)), xlab = &quot;Classe 1-A, 2-B, 3-C, 4-D, 5-E&quot;, main=&quot;Histogram for Training Outcome&quot;) </code></pre>
+<pre class="r"><code>hist(as.numeric(as.factor(FirstDataSet$classe)), 
+     xlab = &quot;Classe 1-A, 2-B, 3-C, 4-D, 5-E&quot;,
+     main=&quot;Histogram for Training Outcome&quot;) </code></pre>
 <div class="figure">
 <img src="data:image/png;base64,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" />
 </div>
-<p>It shows Classe is distributed into five bins. Per <a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a>, the value of Classe means the following’s:</p>
+<p>It shows classe is distributed into five bins. Per <a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a>, the value of Classe means the following’s:</p>
 <p>exactly according to the specification (Class A)</p>
 <p>throwing the elbows to the front (Class B)</p>
 <p>lifting the dumbbell only halfway (Class C)</p>
@@ -144,7 +145,7 @@ dim(FirstDataSet)</code></pre>
 <h2>Step 4: Develop the first algorithms</h2>
 <p>The following guide line is used for developing model algorithm:</p>
 <ol style="list-style-type: decimal">
-<li><p>Define error rate: 80% Accuracy which weights false positives/negatives equally. The reason for selecting Accuracy to measure error rate is because Classe is a categorical outcome. The Fraction correct rate is measured.</p></li>
+<li><p>Define error rate: 80% Accuracy which weights false positives/negatives equally. The reason for selecting Accuracy to measure error rate is because classe is a categorical outcome. The Fraction correct rate is measured.</p></li>
 <li><p>Split data into training and testing sets Consider the size of data is relative small, cross reference is needed by training and testing data sets. Partition the data into three data sets: training, validating and testing.</p></li>
 </ol>
 <pre class="r"><code>set.seed(200)
@@ -192,7 +193,7 @@ RadomForestResult&lt;-confusionMatrix(RandomForestPredicting, Testing$classe)</c
 ##          C    1    0  852    5    0
 ##          D    0    0    0  797    1
 ##          E    0    0    0    2  900</code></pre>
-<p>Prediction compare above shows that the Radomforst method predict more accurated values for the outcome. For example, comparing in the number (row A, column B) in the two tables above, decision tree has 146 predicated value does not match with actual, but Random Forest model (row A, column B) has 3 only.</p>
+<p>Prediction compare above shows that the Radom Forest method predict more accurate values for the outcome. For example, comparing in the number (row A, column B) in the two tables above, decision tree has 146 predicated value does not match with actual, but Random Forest model (row A, column B) has 3 only.</p>
 <pre class="r"><code>print(TreeResult$overall)</code></pre>
 <pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
 ##   7.542822e-01   6.886266e-01   7.419818e-01   7.662792e-01   2.844617e-01 
@@ -203,38 +204,14 @@ RadomForestResult&lt;-confusionMatrix(RandomForestPredicting, Testing$classe)</c
 ##      0.9969413      0.9961308      0.9949601      0.9982871      0.2844617 
 ## AccuracyPValue  McnemarPValue 
 ##      0.0000000            NaN</code></pre>
-<p>The accuracy from Ramdon Forest model is 99% which is higher than 75% (lower than 80%) from Desion Tree.</p>
-<pre class="r"><code>print(TreeResult$byClass)</code></pre>
-<pre><code>##          Sensitivity Specificity Pos Pred Value Neg Pred Value Prevalence
-## Class: A   0.9060932   0.9404389      0.8581127      0.9618187  0.2844617
-## Class: B   0.6164384   0.9249052      0.6632653      0.9094978  0.1935155
-## Class: C   0.7836257   0.9125710      0.6542969      0.9523196  0.1743475
-## Class: D   0.6504975   0.9504878      0.7203857      0.9327429  0.1639478
-## Class: E   0.7291898   0.9645266      0.8222778      0.9405603  0.1837276
-##          Detection Rate Detection Prevalence Balanced Accuracy
-## Class: A      0.2577488            0.3003670         0.9232660
-## Class: B      0.1192904            0.1798532         0.7706718
-## Class: C      0.1366232            0.2088091         0.8480984
-## Class: D      0.1066476            0.1480424         0.8004927
-## Class: E      0.1339723            0.1629282         0.8468582</code></pre>
-<pre class="r"><code>print(RadomForestResult$byClass)</code></pre>
-<pre><code>##          Sensitivity Specificity Pos Pred Value Neg Pred Value Prevalence
-## Class: A   0.9992832   0.9991451      0.9978525      0.9997149  0.2844617
-## Class: B   0.9968388   0.9992415      0.9968388      0.9992415  0.1935155
-## Class: C   0.9964912   0.9985182      0.9930070      0.9992585  0.1743475
-## Class: D   0.9912935   0.9997561      0.9987469      0.9982952  0.1639478
-## Class: E   0.9988901   0.9995004      0.9977827      0.9997501  0.1837276
-##          Detection Rate Detection Prevalence Balanced Accuracy
-## Class: A      0.2842577            0.2848695         0.9992141
-## Class: B      0.1929038            0.1935155         0.9980401
-## Class: C      0.1737357            0.1749592         0.9975047
-## Class: D      0.1625204            0.1627243         0.9955248
-## Class: E      0.1835237            0.1839315         0.9991952</code></pre>
+<p>The accuracy from Random Forest model is 99% which is higher than 75% (lower than 80%) from Desion Tree.</p>
+<pre class="r"><code>print(TreeResult$byClass)
+print(RadomForestResult$byClass)</code></pre>
 </div>
 </div>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
-<p>All of the above results show that the Random Forest model predicates more acturate than decision tree model. So, the Random Forest model is selected to submit the result for the 20 rows of testing data.</p>
+<p>All of the above results show that the Random Forest model predicates more accurate than decision tree model. So, the Random Forest model is selected to submit the result for the 20 rows of testing data.</p>
 </div>
 
 

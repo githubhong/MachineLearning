@@ -9,10 +9,9 @@ output:
 ---
 # Purpose of this project
 
-To predicate the outcome of Classe 
-Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. 
-
-In this project, the goal is to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. The purpose of this project is to predict the manner, using outcome variable called "classe", in which they did the exercise. This is the "classe" variable in the training set.  
+To predicate the outcome of classe Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement - a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it.
+In this project, the goal is to use data from accelerometers on the belt, forearm, arm, and dumbbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. The purpose of this project is to predict the manner, using outcome variable called "classe", in which they did the exercise. This is the "classe" variable in the training set.
+ 
 
 ## Step 1: Get input data 
 Download the project first data sets from https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv and the second data set from https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv in case the internet connection is not always available during research.
@@ -39,10 +38,12 @@ These two datasets are similar except the last column name is different. The tra
 
 ## Step 2: Get to know how outcome column 'classe' is distributed?
 ```{r}
-hist(as.numeric(as.factor(FirstDataSet$classe)), xlab = "Classe 1-A, 2-B, 3-C, 4-D, 5-E", main="Histogram for Training Outcome") 
+hist(as.numeric(as.factor(FirstDataSet$classe)), 
+     xlab = "Classe 1-A, 2-B, 3-C, 4-D, 5-E",
+     main="Histogram for Training Outcome") 
 ```
 
-It shows Classe is distributed into five bins. Per http://groupware.les.inf.puc-rio.br/har, the value of Classe means the following's:
+It shows classe is distributed into five bins. Per http://groupware.les.inf.puc-rio.br/har, the value of Classe means the following's:
 
   exactly according to the specification (Class A)
 
@@ -96,7 +97,7 @@ dim(FirstDataSetWoutUnRelvant)
 ## Step 4: Develop the first algorithms 
 The following guide line is used for developing model algorithm:
 
-1. Define error rate: 80% Accuracy which weights false positives/negatives equally. The reason for selecting Accuracy to measure error rate is because Classe is a categorical outcome. The Fraction correct rate is measured.
+1.	Define error rate: 80% Accuracy which weights false positives/negatives equally. The reason for selecting Accuracy to measure error rate is because classe is a categorical outcome. The Fraction correct rate is measured.
 
 2. Split data into training and testing sets
 Consider the size of data is relative small, cross reference is needed by training and testing data sets.
@@ -138,20 +139,19 @@ RadomForestResult<-confusionMatrix(RandomForestPredicting, Testing$classe)
 print(TreeResult$table)
 print(RadomForestResult$table) 
 ```
-Prediction compare above shows that the Radomforst method predict more accurated values for the outcome. For example, comparing in the number (row A, column B) in the two tables above, decision tree has 146 predicated value does not match with actual, 
-but Random Forest model (row A, column B) has 3 only. 
+Prediction compare above shows that the Radom Forest method predict more accurate values for the outcome. For example, comparing in the number (row A, column B) in the two tables above, decision tree has 146 predicated value does not match with actual, but Random Forest model (row A, column B) has 3 only.
 
 ```{r}
 print(TreeResult$overall)
 print(RadomForestResult$overall)
 ```
-The accuracy from Ramdon Forest model is 99% which is higher than 75% (lower than 80%) from Desion Tree.
+The accuracy from Random Forest model is 99% which is higher than 75% (lower than 80%) from Desion Tree.
 
-```{r}
+```{r results="hide", warning=FALSE}
 print(TreeResult$byClass)
 print(RadomForestResult$byClass)
 ```
 
 #Summary
-All of the above results show that the Random Forest model predicates more acturate than decision tree model. So, the Random Forest model is selected to submit the result for the 20 rows of testing data. 
+All of the above results show that the Random Forest model predicates more accurate than decision tree model. So, the Random Forest model is selected to submit the result for the 20 rows of testing data. 
 
